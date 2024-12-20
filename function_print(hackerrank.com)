@@ -1,0 +1,71 @@
+# Programmer: Kirill "Dreamwalker" Krylov
+# Problem from "Get started" (Python course) at hackerrank.com :
+# Code will read an integer, n, from STDIN.
+# Without using any string methods, try to print the following: 1, 2, 3, ..., n
+# Note that "..." represents the consecutive values in between.
+# Example
+# n = 5
+# Print the string 12345.
+# Input Format
+# The first line contains an integer n.
+#
+# Constraints
+# 1 <= n <= 150
+#
+# Output Format
+# Print the list of integers from 1 through n as a string, without spaces.
+
+# !!! Key Concepts !!!
+# The total function operates on the following key concepts:
+# * Subsequence Generation: It generates a list of digits from all integers up to the given number.
+# * Mathematical Representation: The function calculates a weighted sum of these digits, where
+#                               each digit is multiplied by a power of ten based on its position.
+# * Iterative Processing: The function employs loops to iterate through numbers and their digits,
+#                       showcasing fundamental programming constructs in Python.
+
+def total(number:int)->int:
+    subsequence = [] # List to hold digits
+    result = 0 # Variable to store the final result
+    start = 1 # Starting point for the loop
+    base_number = 10 # Base for power calculations
+    if number == 0:
+        return result # Return 0 if input is 0
+    else:
+        # Loop through numbers from 1 to the input number
+        for i in range(start, number+1):
+            if i < 10:
+                subsequence.append(i) # Directly append single-digit numbers
+            else:
+                # Extract digits from the number
+                digits = []
+                j = i
+                while j > 0:
+                    digits.insert(0, j % 10) # Insert the last digit at the beginning
+                    j //= 10 # Remove the last digit
+                subsequence.extend(digits) # Add extracted digits to subsequence
+
+# 1* 10**12 + 2 * 10**11 + 3* 10**10 + 4* 10**9 + 5* 10**8 + 6* 10**7 + 7* 10**6 + 8* 10**5 + 9* 10**4 +
+#          1* 10**3 + 0* 10**2 + 1* 10**1 + 1 * 10**0
+
+    # Calculate the weighted sum of the digits
+    for k in range(0,len(subsequence), 1):
+            print(f"{k}: {subsequence[k]} * 10^ {len(subsequence)-k-1}")
+            result += int(subsequence[k] * base_number ** (len(subsequence)-k-1))
+    return result # Return the final calculated result
+
+# !!! Explanation of the Code !!!
+# 1. Initialization: The function initializes an empty list subsequence to store digits and
+#                 a variable result to accumulate the final output.
+# 2. Input Handling: If the input number is zero, the function returns zero immediately.
+# 3. Digit Extraction: For each number from 1 to the input number, the function checks if the number is a single digit.
+#                   If so, it appends it directly to subsequence. For multi-digit numbers,
+#                   it extracts each digit and appends them to the list.
+# 4. Weighted Calculation: The function then iterates over the subsequence,
+#                       printing each digit along with its corresponding power of ten.
+#                       It calculates the total by multiplying each digit
+#                       by its respective power of ten and adds it to result.
+#
+# Output: Finally, the function returns the computed result.
+
+
+print(total(150)) # Call the function with 150 as input
